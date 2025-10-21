@@ -22,5 +22,5 @@ public class Produto {
     private String nome;
 
     @Column(name = "Valor do Produto")
-    private Integer valor;
+    private Double valor;
 }
