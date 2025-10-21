@@ -24,7 +24,11 @@ public class ProdutoServiceImpl implements ProdutoService {
 
     @Override
     public Produto update(UUID id, Produto produto) {
-        return null;
+        var produtoExistente = produtoRepository.findById(id)
+                .orElseThrow(()-> new RuntimeException("Produto não encontrado" + id));
+        var produtoAtualizado = produtoRepository.save(produto);
+
+        return produtoAtualizado;
     }
 
     @Override
@@ -34,7 +38,8 @@ public class ProdutoServiceImpl implements ProdutoService {
 
     @Override
     public List<Produto> findAll() {
-        return List.of();
+        var todosProdutos = produtoRepository.findAll();
+        return todosProdutos;
     }
 
     @Override
