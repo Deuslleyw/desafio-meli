@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -25,7 +26,7 @@ public class ProdutoServiceImpl implements ProdutoService {
     @Override
     public Produto update(UUID id, Produto produto) {
         var produtoExistente = produtoRepository.findById(id)
-                .orElseThrow(()-> new RuntimeException("Produto não encontrado" + id));
+                .orElseThrow(() -> new RuntimeException("Produto não encontrado" + id));
         var produtoAtualizado = produtoRepository.save(produto);
 
         return produtoAtualizado;
@@ -33,7 +34,9 @@ public class ProdutoServiceImpl implements ProdutoService {
 
     @Override
     public Produto findById(UUID id) {
-        return null;
+        Optional<Produto> produto = produtoRepository.findById(id);
+        return produto.orElseThrow(()-> new RuntimeException(
+                "Ops! Produto não encontrado com esse ID: " + id));
     }
 
     @Override
@@ -44,6 +47,9 @@ public class ProdutoServiceImpl implements ProdutoService {
 
     @Override
     public void delete(UUID id) {
+        var produtoExistente = produtoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Produto não encontrado com esse id: " + id));
+        produtoRepository.deleteById(id);
 
     }
 }
