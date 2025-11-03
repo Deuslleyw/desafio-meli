@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -47,7 +48,7 @@ public class ProdutoController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Produto> findById(@PathVariable UUID id){
+    public ResponseEntity<Produto> findById(@PathVariable UUID id) {
         var buscaId = produtoService.findById(id);
         return ResponseEntity.status(HttpStatus.OK).body(buscaId);
     }
