@@ -18,7 +18,6 @@ public class ProdutoController {
     @Autowired
     private ProdutoService produtoService;
 
-
     @PostMapping
     public ResponseEntity<Produto> create(@RequestBody ProdutoDTO produtoDto) {
         var produtoCriado = produtoService.create(produtoDto);
