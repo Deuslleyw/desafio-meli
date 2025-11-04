@@ -1,7 +1,9 @@
 package com.deusleydev.api_desafio_meli.service.impl;
 
 import com.deusleydev.api_desafio_meli.domain.Produto;
+import com.deusleydev.api_desafio_meli.dto.ProdutoDTO;
 import com.deusleydev.api_desafio_meli.exeptions.ProdutoNotFoundException;
+import com.deusleydev.api_desafio_meli.mapper.ProdutoMapper;
 import com.deusleydev.api_desafio_meli.repository.ProdutoRepository;
 import com.deusleydev.api_desafio_meli.service.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,33 +19,40 @@ public class ProdutoServiceImpl implements ProdutoService {
     @Autowired
     private ProdutoRepository produtoRepository;
 
+    @Autowired
+    private ProdutoMapper produtoMapper;
+
 
     @Override
-    public Produto create(Produto produto) {
-        var produtoCriado = produtoRepository.save(produto);
+    public Produto create(ProdutoDTO produtoDto) {
+        var convertedProduto = produtoMapper.toProduto(produtoDto);
+        var produtoCriado = produtoRepository.save(convertedProduto);
         return produtoCriado;
     }
 
     @Override
-    public Produto update(UUID id, Produto produto) {
+    public Produto update(UUID id, ProdutoDTO produtoDto) {
         var produtoExistente = produtoRepository.findById(id)
                 .orElseThrow(() -> new ProdutoNotFoundException("Produto não encontrado! ID: " + id));
-        var produtoAtualizado = produtoRepository.save(produto);
-
+        var convertedProduto = produtoMapper.toProduto(produtoDto);
+        var produtoAtualizado = produtoRepository.save(convertedProduto);
         return produtoAtualizado;
     }
 
     @Override
-    public Produto findById(UUID id) {
-        Optional<Produto> produto = produtoRepository.findById(id);
-        return produto.orElseThrow(()-> new ProdutoNotFoundException(
+    public ProdutoDTO findById(UUID id) {
+        var produto = produtoRepository.findById(id)
+        .orElseThrow(()-> new ProdutoNotFoundException(
                 "Ops! Produto não encontrado com esse ID: " + id));
+        var convertedProduto = produtoMapper.fromProduto(produto);
+        return convertedProduto;
     }
 
     @Override
-    public List<Produto> findAll() {
+    public List<ProdutoDTO> findAll() {
         var todosProdutos = produtoRepository.findAll();
-        return todosProdutos;
+        var convertedProduto = produtoMapper.toDtoList(todosProdutos);
+        return convertedProduto;
     }
 
     @Override

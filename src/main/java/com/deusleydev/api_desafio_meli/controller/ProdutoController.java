@@ -1,6 +1,8 @@
 package com.deusleydev.api_desafio_meli.controller;
 
 import com.deusleydev.api_desafio_meli.domain.Produto;
+import com.deusleydev.api_desafio_meli.dto.ProdutoDTO;
+import com.deusleydev.api_desafio_meli.mapper.ProdutoMapper;
 import com.deusleydev.api_desafio_meli.service.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,28 +19,30 @@ public class ProdutoController {
     @Autowired
     private ProdutoService produtoService;
 
+    @Autowired
+    private ProdutoMapper produtoMapper;
+
     @PostMapping
-    public ResponseEntity<Produto> create(@RequestBody Produto produto) {
-        var produtoCriado = produtoService.create(produto);
+    public ResponseEntity<Produto> create(@RequestBody ProdutoDTO produtoDto) {
+        var produtoCriado = produtoService.create(produtoDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(produtoCriado);
 
     }
 
     @PutMapping(value = "/{id}")
     public ResponseEntity<Produto> update(@PathVariable UUID id,
-                                          @RequestBody Produto produto) {
-        produto.setId(id);
+                                          @RequestBody ProdutoDTO produtoDto) {
+        produtoDto.setId(id);
 
-        var produtoAtualizado = produtoService.update(id, produto);
+        var produtoAtualizado = produtoService.update(id, produtoDto);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(produtoAtualizado);
 
     }
 
-
     @GetMapping
-    public List<Produto> findAll() {
+    public ResponseEntity <List<ProdutoDTO>> findAll() {
         var todosProdutos = produtoService.findAll();
-        return ResponseEntity.status(HttpStatus.OK).body(todosProdutos).getBody();
+        return ResponseEntity.status(HttpStatus.OK).body(todosProdutos);
     }
 
     @DeleteMapping(value = "/{id}")
@@ -48,7 +52,7 @@ public class ProdutoController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Produto> findById(@PathVariable UUID id) {
+    public ResponseEntity<ProdutoDTO> findById(@PathVariable UUID id) {
         var buscaId = produtoService.findById(id);
         return ResponseEntity.status(HttpStatus.OK).body(buscaId);
     }

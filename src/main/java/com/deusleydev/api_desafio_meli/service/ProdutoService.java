@@ -1,19 +1,20 @@
 package com.deusleydev.api_desafio_meli.service;
 
 import com.deusleydev.api_desafio_meli.domain.Produto;
+import com.deusleydev.api_desafio_meli.dto.ProdutoDTO;
 
 import java.util.List;
 import java.util.UUID;
 
 public interface ProdutoService {
 
-   Produto create (Produto produto);
+   Produto create (ProdutoDTO produtoDto);
 
-   Produto update (UUID id, Produto produto);
+   Produto update (UUID id, ProdutoDTO produtoDto);
 
-   Produto findById (UUID id);
+   ProdutoDTO findById (UUID id);
 
-   List<Produto> findAll();
+   List<ProdutoDTO> findAll();
 
    void delete(UUID id);
 }
