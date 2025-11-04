@@ -2,7 +2,6 @@ package com.deusleydev.api_desafio_meli.controller;
 
 import com.deusleydev.api_desafio_meli.domain.Produto;
 import com.deusleydev.api_desafio_meli.dto.ProdutoDTO;
-import com.deusleydev.api_desafio_meli.mapper.ProdutoMapper;
 import com.deusleydev.api_desafio_meli.service.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,8 +18,6 @@ public class ProdutoController {
     @Autowired
     private ProdutoService produtoService;
 
-    @Autowired
-    private ProdutoMapper produtoMapper;
 
     @PostMapping
     public ResponseEntity<Produto> create(@RequestBody ProdutoDTO produtoDto) {
